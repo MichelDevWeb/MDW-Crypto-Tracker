@@ -55,7 +55,10 @@ $(document).ready(function () {
 					page: page,
 					per_page: '100',
 					sparkline: false,
-				} : {query: searchKey}) : ((searchKey?.length === 0 || searchKey === null) ? {ids: showTop ? null : finalString} : {
+				} : {query: searchKey}) : ((searchKey?.length === 0 || searchKey === null) ? {
+					ids: showTop ? null : finalString, 
+					limit: page === 1 ? 100 : page,
+				} : {
 					search: searchKey,
 					limit: page === 1 ? 100 : page,
 				}),
@@ -227,13 +230,15 @@ $(document).ready(function () {
 		console.log(isCoinGecko);
 		$('#pageSize').empty();
 		if (isCoinGecko) {
+			page = 1;
 			for (let i = 1; i <= 20; i++) {
 				$('#pageSize').append('<option value=' +i+'>Page '+i+'</option>')
 			}
 		} else {
+			page = 100;
 			$('#pageSize').append('<option selected value="100">Top 100</option><option value="200">Top 200</option><option value="500">Top 500</option>')
 		}
-		start()
+		start(true)
 	})
 	$('#pageSize').change(function() {
 		page = $('#pageSize').val();
