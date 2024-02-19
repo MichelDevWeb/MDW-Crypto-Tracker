@@ -30,12 +30,22 @@ if (localStorage.getItem("milliseconds") !== null) {
 	localStorage['milliseconds'] = milliseconds;
 	storedMS = parseInt(localStorage['milliseconds']);
 }
+
+if (localStorage.getItem("platform") !== null) {
+	const platform = localStorage.getItem("platform");
+	isCoinGecko = platform === 'CoinGecko';
+	$('#platform').val(platform);
+}
 	
 $(document).ready(function () {
+	getPageSize();
 	start();
 
 	function start(showTop = false) {
-		if ((storedMS + 1000) < milliseconds) {
+		if (((storedMS + (isCoinGecko ? 5000 : 1000)) < milliseconds) || 
+		localStorage.getItem("coinGeckoStoredPropFavs") === null || 
+		localStorage.getItem("storedPropFavs") === null) {
+
 			if (localStorage.getItem("arrFavsObj") !== null && JSON.parse(localStorage.getItem("arrFavsObj")).length > 0) {
 				arrFavsId = JSON.parse(localStorage['arrFavsObj']);
 			}
@@ -64,22 +74,28 @@ $(document).ready(function () {
 				}),
 				crossDomain: true,
 				success: function (data) {
-					storedPropFavs = isCoinGecko ? ((searchKey?.length === 0 || searchKey === null) ? data : data.coins) : data.data;
-
-					localStorage['storedPropFavs'] = JSON.stringify(storedPropFavs);
-					
+					if (isCoinGecko) {
+						storedPropFavs = ((searchKey?.length === 0 || searchKey === null) ? data : data.coins);
+						localStorage['coinGeckoStoredPropFavs'] = JSON.stringify(storedPropFavs);
+					} else {
+						storedPropFavs = data.data;
+						localStorage['storedPropFavs'] = JSON.stringify(storedPropFavs);
+					}
 					sortDisplay();
+				},
+				error: function () {
+					storedPropFavs = JSON.parse(localStorage[isCoinGecko ? 'coinGeckoStoredPropFavs' : 'storedPropFavs']);
+					sortDisplay();		
 				}
 			});
 		} else {		
-			storedPropFavs = JSON.parse(localStorage['storedPropFavs']);
+			storedPropFavs = JSON.parse(localStorage[isCoinGecko ? 'coinGeckoStoredPropFavs' : 'storedPropFavs']);
 			sortDisplay();		
 		}	
 	}
 
 	function displayCoins() {
 		jQuery('#cryptoTable').html('');
-		console.log(storedPropFavs);
 		for (let propertyName in storedPropFavs) {
 			isFav = arrFavsId.findIndex(i => i === storedPropFavs[propertyName].id) > -1 ? true : false;
 			b = document.createElement("TR");
@@ -162,12 +178,12 @@ $(document).ready(function () {
 		switch (sortOptions) {
 		case 'rankAsc':
 			storedPropFavs.sort(function (a, b) {
-				return a.market_cap_rank - b.market_cap_rank
+				return isCoinGecko ? (a.market_cap_rank - b.market_cap_rank) : (a.rank - b.rank)
 			});
 			break;
 		case 'rankDesc':
 			storedPropFavs.sort(function (a, b) {
-				return b.market_cap_rank - a.market_cap_rank
+				return isCoinGecko ? (b.market_cap_rank - a.market_cap_rank) : (b.rank - a.rank)
 			});
 			break;
 		case 'nameAsc':
@@ -178,28 +194,41 @@ $(document).ready(function () {
 			break;
 		case 'priceAsc':
 			storedPropFavs.sort(function (a, b) {
-				return a.current_price - b.current_price
+				return isCoinGecko ? (a.current_price - b.current_price) : (a.priceUsd - b.priceUsd)
 			});
 			break;
 		case 'priceDesc':
 			storedPropFavs.sort(function (a, b) {
-				return b.current_price - a.current_price
+				return isCoinGecko ? (b.current_price - a.current_price) : (b.priceUsd - a.priceUsd)
 			});
 			break;
 		case 'changeAsc':
 			storedPropFavs.sort(function (a, b) {
-				return a.market_cap_change_percentage_24h - b.market_cap_change_percentage_24h
+				return isCoinGecko ? (a.price_change_percentage_24h - b.price_change_percentage_24h) : (a.changePercent24Hr - b.changePercent24Hr)
 			});
 			break;
 		case 'changeDesc':
 			storedPropFavs.sort(function (a, b) {
-				return b.market_cap_change_percentage_24h - a.market_cap_change_percentage_24h
+				return isCoinGecko ? (b.price_change_percentage_24h - a.price_change_percentage_24h) : (b.changePercent24Hr - a.changePercent24Hr)
 			});
 			break;
 		}
 
 		localStorage['sortOptions'] = sortOptions;
 		displayCoins();
+	}
+
+	function getPageSize() {
+		$('#pageSize').empty();
+		if (isCoinGecko) {
+			page = 1;
+			for (let i = 1; i <= 20; i++) {
+				$('#pageSize').append('<option value=' +i+'>Page '+i+'</option>')
+			}
+		} else {
+			page = 100;
+			$('#pageSize').append('<option selected value="100">Top 100</option><option value="200">Top 200</option><option value="500">Top 500</option>')
+		}
 	}
 
 	$("#rank").click(function () {
@@ -227,17 +256,8 @@ $(document).ready(function () {
 
 	$('#platform').change(function() {
 		isCoinGecko = $('#platform').val() === 'CoinGecko';
-		console.log(isCoinGecko);
-		$('#pageSize').empty();
-		if (isCoinGecko) {
-			page = 1;
-			for (let i = 1; i <= 20; i++) {
-				$('#pageSize').append('<option value=' +i+'>Page '+i+'</option>')
-			}
-		} else {
-			page = 100;
-			$('#pageSize').append('<option selected value="100">Top 100</option><option value="200">Top 200</option><option value="500">Top 500</option>')
-		}
+		getPageSize();
+		localStorage['platform'] = $('#platform').val();
 		start(true)
 	})
 	$('#pageSize').change(function() {
