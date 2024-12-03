@@ -1,21 +1,46 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <h1><img src="/images/CT-logo-128.png" style="width: 50px; height: 50px">MDW Crypto Tracker</h1>
-        <div><b>Version:</b> 1</div>
-        <div><b>Author:</b> MichelDevWeb (micheldevweb2020@gmail.com)</div>
-        <div><b>Updated:</b> 18.02.2024</div>
-        <div><b>API: </b><a href="https://docs.coincap.io/" target="blank">https://docs.coincap.io/</a></div>
-        <div><b>Description: </b>Track your favorite Cryptocurrencies movement.  </div>
-        <div><b>Installation: </b>Download Zip and load as chrome exntension package via chrome developer mode in extensions settings. Can also be installed via the <a href="https://chromewebstore.google.com/detail/njpeiacpcgcfdojjedocmegpkcljibmk" target="blank">Chrome Web Store</a></div> 
-        <div><b>Release notes: </b> Now you can easily search for your favorite coins by either name or symbol. All coins can be tracked without limitation of how many you can track.</div>  
-		<div><b>Bundled Software / Libraries:</b></div>  
-                 <div>
-            <ul>
-                <li>jQuery: http://jquery.com/</li>
-                <li>Bootstrap: http://twitter.github.com/bootstrap/index.html</li>
-            </ul>
-        </div>
-   </body>
-</html>
+# 🚀 MDW Crypto Portfolio Tracker
+
+![Logo](/vue/public/icons/icon128.png)
+
+## Overview
+
+Track your favorite Cryptocurrencies movement with real-time updates and unlimited tracking capabilities.
+
+## Details
+
+- **Version:** 2
+- **Author:** MichelDevWeb (micheldevweb2020@gmail.com)
+- **Last Updated:** 02.12.2024
+- **API:** [CoinCap API](https://docs.coincap.io/), [CoinGecko API](https://www.coingecko.com/api)
+
+## Features
+
+- Search cryptocurrencies by name or symbol
+- Unlimited coin tracking
+- Real-time price updates
+- User-friendly interface
+
+## Installation
+
+Choose one of the following installation methods:
+
+1. **Chrome Web Store:**
+
+   - Install directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/njpeiacpcgcfdojjedocmegpkcljibmk)
+
+2. **Manual Installation:**
+   - Download the ZIP file
+   - Enable Chrome Developer Mode in extensions settings
+   - Load the unpacked extension
+
+## Dependencies
+
+- [jQuery](http://jquery.com/)
+- [Bootstrap](http://twitter.github.com/bootstrap/index.html)
+- [Vue.js](https://vuejs.org/)
+
+## Release Notes
+
+- Added search functionality for coins by name or symbol
+- Removed tracking limitations
+- Enhanced user interface

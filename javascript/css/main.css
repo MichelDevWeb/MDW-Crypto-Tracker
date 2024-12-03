@@ -1,0 +1,55 @@
+/*
+** file: css/main.css
+** description: custom styling for "html/main.html" file
+** last updated: 07/21/2018;
+*/
+
+body {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+#main-outer {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.clickable-header {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.clickable-header:hover {
+  opacity: 0.7;
+}
+
+.price-cell {
+  font-family: monospace;
+  font-weight: 500;
+}
+
+.change-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  min-width: 80px;
+  display: inline-block;
+}
+
+.change-positive {
+  background-color: #28a745;
+  color: white;
+}
+
+.change-negative {
+  background-color: #dc3545;
+  color: white;
+}
