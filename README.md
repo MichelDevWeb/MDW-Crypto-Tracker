@@ -2,11 +2,11 @@
 
 ![Logo](/vue/public/icons/icon128.png)
 
-![Screenshot](/vue/public/images/img-1.png),
-![Screenshot](/vue/public/images/img-2.png),
-![Screenshot](/vue/public/images/img-3.png),
-![Screenshot](/vue/public/images/img-4.png),
-![Screenshot](/vue/public/images/img-5.png),
+![Screenshot](/vue/public/images/img-1.PNG),
+![Screenshot](/vue/public/images/img-2.PNG),
+![Screenshot](/vue/public/images/img-3.PNG),
+![Screenshot](/vue/public/images/img-4.PNG),
+![Screenshot](/vue/public/images/img-5.PNG),
 
 ## Overview
 
