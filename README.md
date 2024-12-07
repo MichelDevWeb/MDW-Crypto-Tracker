@@ -14,9 +14,9 @@ Track your favorite Cryptocurrencies movement with real-time updates and unlimit
 
 ## Details
 
-- **Version:** 2
+- **Version:** 3.0
 - **Author:** MichelDevWeb (micheldevweb2020@gmail.com)
-- **Last Updated:** 02.12.2024
+- **Last Updated:** 07.12.2024
 - **API:** [CoinCap API](https://docs.coincap.io/), [CoinGecko API](https://www.coingecko.com/api)
 
 ## Features
