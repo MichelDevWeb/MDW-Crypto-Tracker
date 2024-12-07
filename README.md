@@ -2,6 +2,12 @@
 
 ![Logo](/vue/public/icons/icon128.png)
 
+![Screenshot](/vue/public/images/img-1.png),
+![Screenshot](/vue/public/images/img-2.png),
+![Screenshot](/vue/public/images/img-3.png),
+![Screenshot](/vue/public/images/img-4.png),
+![Screenshot](/vue/public/images/img-5.png),
+
 ## Overview
 
 Track your favorite Cryptocurrencies movement with real-time updates and unlimited tracking capabilities.
