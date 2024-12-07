@@ -1,0 +1,59 @@
+# Dependencies
+/node_modules
+/dist
+/vue/node_modules
+/vue/src
+/vue/package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build files
+/dist
+/build
+
+# Testing
+/coverage
+
+# Optional: Chrome Extension specific
+*.pem
+*.crx
+
+# Optional: API Keys and Secrets
+config.js
+secrets.json
+
+# Optional: Database files
+*.sqlite
+*.db
+
+# Optional: Temporary files
+*.tmp
+*.temp
+.cache 
