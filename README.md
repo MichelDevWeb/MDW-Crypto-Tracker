@@ -14,7 +14,7 @@ Track your favorite Cryptocurrencies movement with real-time updates and unlimit
 
 ## Details
 
-- **Version:** 3.0
+- **Version:** 3.1
 - **Author:** MichelDevWeb (micheldevweb2020@gmail.com)
 - **Last Updated:** 07.12.2024
 - **API:** [CoinCap API](https://docs.coincap.io/), [CoinGecko API](https://www.coingecko.com/api)
@@ -50,3 +50,9 @@ Choose one of the following installation methods:
 - Added search functionality for coins by name or symbol
 - Removed tracking limitations
 - Enhanced user interface
+- Added real-time price updates
+- Improved error handling and API reliability
+- Optimized performance for faster loading
+- Enhanced data visualization with price charts
+- Added portfolio value tracking
+- Improved mobile responsiveness
