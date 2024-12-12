@@ -2,24 +2,24 @@
   <div class="app-container">
     <div class="header">
       <div class="header-content">
-        <h3>MDW Crypto</h3>
-        <div class="stats-container">
-          <div class="stat-item">
-            <span class="stat-value">${{ formatPrice(totalCost) }}</span>
-            <span class="stat-label">Cost</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value">${{ formatPrice(totalValue) }}</span>
-            <span class="stat-label">Value</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span :class="['stat-value', getPnLClass(totalProfitLoss)]">
-              {{ formatPnL(totalProfitLoss) }}
-              <small v-if="totalCost">({{ formatPnLPercentage(totalProfitLoss, totalCost) }})</small>
-            </span>
-            <span class="stat-label">P&L</span>
+        <div class="title-and-stats">
+          <h3>MDW Crypto</h3>
+          <div class="stats-group">
+            <div class="stat-item">
+              <span class="stat-label">Cost:</span>
+              <span class="stat-value">${{ formatPrice(totalCost) }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Value:</span>
+              <span class="stat-value">${{ formatPrice(totalValue) }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">P&L:</span>
+              <span :class="['stat-value', getPnLClass(totalProfitLoss)]">
+                {{ formatPnL(totalProfitLoss) }}
+                <small v-if="totalCost">({{ formatPnLPercentage(totalProfitLoss, totalCost) }})</small>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -95,11 +95,10 @@
               Value/PnL
               <span class="sort-icon">{{ getSortIcon("value") }}</span>
             </th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="coin in sortedCoins" :key="coin.id">
+          <tr v-for="coin in sortedCoins" :key="coin.id" class="coin-row">
             <td>
               <button
                 @click="togglePortfolio(coin)"
@@ -137,9 +136,9 @@
             >
               {{ formatPriceChange(coin.priceChange24h) }}
             </td>
-            <td>
+            <td class="value-pnl-cell">
               <div class="value-pnl-container">
-                <div>${{ formatPrice(coin.holdings * coin.price) }}</div>
+                <div class="value-text">${{ formatPrice(coin.holdings * coin.price) }}</div>
                 <div :class="['pnl-text', getPnLClass(coin.pnl)]">
                   {{ formatPnL(coin.pnl) }}
                   <small v-if="coin.holdings">
@@ -147,22 +146,22 @@
                   </small>
                 </div>
               </div>
-            </td>
-            <td>
-              <div class="action-buttons">
+              <div class="hover-actions">
                 <button
                   @click="openTransactionModal(coin)"
                   class="action-btn"
                   title="Add Transaction"
                 >
-                  ➕
+                  <span class="action-icon">💰</span>
+                  <span class="action-text">Add</span>
                 </button>
                 <button
                   @click="viewTransactions(coin)"
                   class="action-btn"
                   title="View Transactions"
                 >
-                  👁️
+                  <span class="action-icon">📊</span>
+                  <span class="action-text">View</span>
                 </button>
               </div>
             </td>
@@ -362,8 +361,8 @@
             <div class="tx-secondary">
               <span class="tx-date">{{ new Date(tx.timestamp).toLocaleString() }}</span>
               <div class="tx-actions">
-                <button @click="editTransaction(tx)" class="action-mini" title="Edit">✏️</button>
-                <button @click="deleteTransaction(tx)" class="action-mini" title="Delete">🗑️</button>
+                <button @click="editTransaction(tx)" class="action-mini" title="Edit">✎</button>
+                <button @click="deleteTransaction(tx)" class="action-mini" title="Delete">🗑</button>
               </div>
             </div>
           </div>
@@ -990,56 +989,46 @@ export default {
 }
 
 .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 8px;
 }
 
-.header h3 {
+.title-and-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.title-and-stats h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   background: linear-gradient(45deg, #2ecc71, #3498db);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-.stats-container {
+.stats-group {
   display: flex;
+  gap: 24px;
   align-items: center;
-  gap: 12px;
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  min-width: 80px; /* Ensures consistent width for stats */
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.stat-label {
+  color: #95a5a6;
+  font-size: 0.9rem;
 }
 
 .stat-value {
   font-weight: 600;
   font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.stat-label {
-  font-size: 0.65rem;
-  color: #95a5a6;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 20px;
-  background-color: #34344a;
-}
-
-small {
-  font-size: 0.75em;
-  opacity: 0.8;
-  margin-left: 2px;
 }
 
 .search-container {
@@ -1392,7 +1381,6 @@ small {
   border-radius: 12px;
   min-width: 560px;
   max-width: 800px;
-  width: 90%;
   max-height: 500px;
   overflow-y: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -1990,5 +1978,152 @@ th {
 
 .transaction-list::-webkit-scrollbar-thumb:hover {
   background: #95a5a6;
+}
+
+.coin-row {
+  position: relative;
+}
+
+.hover-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: linear-gradient(to left, #2a2a3b 80%, transparent);
+  padding: 8px 12px;
+  padding-left: 30px;
+  border-radius: 4px;
+}
+
+.coin-row:hover .hover-actions {
+  opacity: 1;
+  right: 10px; /* Slide in from right */
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #34344a;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: #ffffff;
+  font-size: 0.9em;
+  opacity: 0.9;
+  transform: translateX(10px);
+}
+
+.coin-row:hover .action-btn {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.action-btn:hover {
+  background: #2ecc71;
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.2);
+}
+
+.action-icon {
+  font-size: 1.1em;
+}
+
+.action-text {
+  font-size: 0.85em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Staggered animation for buttons */
+.action-btn:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.action-btn:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+/* Custom colors for different actions */
+.action-btn[title="Add Transaction"] {
+  background: #3498db;
+}
+
+.action-btn[title="View Transactions"] {
+  background: #9b59b6;
+}
+
+.action-btn[title="Add Transaction"]:hover {
+  background: #2980b9;
+}
+
+.action-btn[title="View Transactions"]:hover {
+  background: #8e44ad;
+}
+
+/* Optional: Add tooltip on hover */
+.action-btn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #34344a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.action-btn:hover::after {
+  opacity: 1;
+}
+
+.value-pnl-cell {
+  position: relative;
+  text-align: center;
+}
+
+.value-pnl-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.value-text {
+  font-weight: 500;
+}
+
+.pnl-text {
+  font-size: 0.9em;
+}
+
+.hover-actions {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: linear-gradient(to left, #2a2a3b 80%, transparent);
+  padding: 8px 12px;
+  padding-left: 30px;
+  border-radius: 4px;
+  z-index: 2; /* Ensure actions appear above the value/pnl text */
 }
 </style>
