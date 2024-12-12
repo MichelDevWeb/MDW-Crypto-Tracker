@@ -1,0 +1,10 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}

@@ -2,7 +2,6 @@
 /node_modules
 /dist
 /vue/node_modules
-/vue/src
 /vue/package-lock.json
 
 # Environment files
