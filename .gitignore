@@ -56,3 +56,6 @@ secrets.json
 *.tmp
 *.temp
 .cache 
+
+# Optional: Other files
+*.zip

@@ -3,21 +3,27 @@
     <div class="header">
       <div class="header-content">
         <div class="title-and-stats">
-          <h3>MDW Crypto</h3>
-          <div class="stats-group">
-            <div class="stat-item">
-              <span class="stat-label">Cost:</span>
-              <span class="stat-value">${{ formatPrice(totalCost) }}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Value:</span>
-              <span class="stat-value">${{ formatPrice(totalValue) }}</span>
+          <h3>MDW Crypto Portfolio Tracker</h3>
+          <div v-if="showPortfolio">
+            <div class="stats-group">
+              <div class="stat-item">
+                <span class="stat-label">Cost:</span>
+                <span class="stat-value">${{ formatPrice(totalCost) }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Value:</span>
+                <span class="stat-value">${{ formatPrice(totalValue) }}</span>
+              </div>
             </div>
             <div class="stat-item">
               <span class="stat-label">P&L:</span>
               <span :class="['stat-value', getPnLClass(totalProfitLoss)]">
                 {{ formatPnL(totalProfitLoss) }}
-                <small v-if="totalCost">({{ formatPnLPercentage(totalProfitLoss, totalCost) }})</small>
+                <small v-if="totalCost"
+                  >({{
+                    formatPnLPercentage(totalProfitLoss, totalCost)
+                  }})</small
+                >
               </span>
             </div>
           </div>
@@ -104,13 +110,15 @@
                 @click="togglePortfolio(coin)"
                 :class="[
                   'favorite-btn',
-                  coin.inPortfolio
-                    ? 'favorite-active'
-                    : 'favorite-inactive',
+                  coin.inPortfolio ? 'favorite-active' : 'favorite-inactive',
                 ]"
-                :title="coin.inPortfolio ? 'Remove from portfolio' : 'Add to portfolio'"
+                :title="
+                  coin.inPortfolio
+                    ? 'Remove from portfolio'
+                    : 'Add to portfolio'
+                "
               >
-                {{ coin.inPortfolio ? '⭐' : '☆' }}
+                {{ coin.inPortfolio ? "⭐" : "☆" }}
               </button>
             </td>
             <td class="rank-icon-cell">
@@ -138,11 +146,15 @@
             </td>
             <td class="value-pnl-cell">
               <div class="value-pnl-container">
-                <div class="value-text">${{ formatPrice(coin.holdings * coin.price) }}</div>
+                <div class="value-text">
+                  ${{ formatPrice(coin.holdings * coin.price) }}
+                </div>
                 <div :class="['pnl-text', getPnLClass(coin.pnl)]">
                   {{ formatPnL(coin.pnl) }}
                   <small v-if="coin.holdings">
-                    ({{ formatPnLPercentage(coin.pnl, coin.holdings * coin.price) }})
+                    ({{
+                      formatPnLPercentage(coin.pnl, coin.holdings * coin.price)
+                    }})
                   </small>
                 </div>
               </div>
@@ -305,10 +317,16 @@
         <!-- Header -->
         <div class="modal-header">
           <div class="coin-info">
-            <img :src="selectedCoin?.image" :alt="selectedCoin?.symbol" class="coin-header-icon">
+            <img
+              :src="selectedCoin?.image"
+              :alt="selectedCoin?.symbol"
+              class="coin-header-icon"
+            />
             <h3>{{ selectedCoin?.symbol.toUpperCase() }} Transactions</h3>
           </div>
-          <button @click="closeTransactionHistory" class="close-btn">&times;</button>
+          <button @click="closeTransactionHistory" class="close-btn">
+            &times;
+          </button>
         </div>
 
         <!-- Summary Cards -->
@@ -317,52 +335,87 @@
             <div class="summary-label">Holdings</div>
             <div class="summary-value">
               {{ selectedCoin?.holdings }}
-              <span class="symbol-badge">{{ selectedCoin?.symbol.toUpperCase() }}</span>
+              <span class="symbol-badge">{{
+                selectedCoin?.symbol.toUpperCase()
+              }}</span>
             </div>
           </div>
           <div class="summary-card">
             <div class="summary-label">Avg. Price</div>
-            <div class="summary-value">${{ formatPrice(calculateAveragePrice(selectedCoin)) }}</div>
+            <div class="summary-value">
+              ${{ formatPrice(calculateAveragePrice(selectedCoin)) }}
+            </div>
           </div>
           <div class="summary-card">
             <div class="summary-label">Total Value</div>
-            <div class="summary-value">${{ formatPrice(selectedCoin?.holdings * selectedCoin?.price) }}</div>
+            <div class="summary-value">
+              ${{ formatPrice(selectedCoin?.holdings * selectedCoin?.price) }}
+            </div>
           </div>
           <div class="summary-card">
             <div class="summary-label">Total P&L</div>
             <div :class="['summary-value', getPnLClass(selectedCoin?.pnl)]">
               {{ formatPnL(selectedCoin?.pnl) }}
-              <small>({{ formatPnLPercentage(selectedCoin?.pnl, selectedCoin?.holdings * selectedCoin?.price) }})</small>
+              <small
+                >({{
+                  formatPnLPercentage(
+                    selectedCoin?.pnl,
+                    selectedCoin?.holdings * selectedCoin?.price
+                  )
+                }})</small
+              >
             </div>
           </div>
         </div>
 
         <!-- Transaction List -->
         <div class="transaction-list">
-          <div v-for="(tx, index) in coinTransactions" 
-               :key="index" 
-               class="tx-item"
-               :class="tx.type">
+          <div
+            v-for="(tx, index) in coinTransactions"
+            :key="index"
+            class="tx-item"
+            :class="tx.type"
+          >
             <div class="tx-main">
               <div class="tx-type">
-                <span class="tx-icon">{{ tx.type === 'buy' ? '↓' : '↑' }}</span>
+                <span class="tx-icon">{{ tx.type === "buy" ? "↓" : "↑" }}</span>
                 {{ tx.type.toUpperCase() }}
               </div>
               <div class="tx-amount">
                 {{ tx.amount }}
-                <span class="symbol-badge">{{ selectedCoin?.symbol.toUpperCase() }}</span>
+                <span class="symbol-badge">{{
+                  selectedCoin?.symbol.toUpperCase()
+                }}</span>
               </div>
               <div class="tx-price">${{ formatPrice(tx.price) }}</div>
-              <div class="tx-total">${{ formatPrice(tx.amount * tx.price) }}</div>
-              <div :class="['tx-pnl', getPnLClass(calculateTransactionPnL(tx))]">
+              <div class="tx-total">
+                ${{ formatPrice(tx.amount * tx.price) }}
+              </div>
+              <div
+                :class="['tx-pnl', getPnLClass(calculateTransactionPnL(tx))]"
+              >
                 {{ formatPnL(calculateTransactionPnL(tx)) }}
               </div>
             </div>
             <div class="tx-secondary">
-              <span class="tx-date">{{ new Date(tx.timestamp).toLocaleString() }}</span>
+              <span class="tx-date">{{
+                new Date(tx.timestamp).toLocaleString()
+              }}</span>
               <div class="tx-actions">
-                <button @click="editTransaction(tx)" class="action-mini" title="Edit">✎</button>
-                <button @click="deleteTransaction(tx)" class="action-mini" title="Delete">🗑</button>
+                <button
+                  @click="editTransaction(tx)"
+                  class="action-mini"
+                  title="Edit"
+                >
+                  ✎
+                </button>
+                <button
+                  @click="deleteTransaction(tx)"
+                  class="action-mini"
+                  title="Delete"
+                >
+                  🗑
+                </button>
               </div>
             </div>
           </div>
@@ -501,10 +554,10 @@ export default {
         if (this.showPortfolio) {
           // Get portfolio coins from storage
           const { portfolio = [] } = await chrome.storage.sync.get("portfolio");
-          
+
           if (this.selectedApi === "coingecko") {
             // For CoinGecko: Use the markets API with specific coin IDs
-            const coinIds = portfolio.join(',');
+            const coinIds = portfolio.join(",");
             if (coinIds) {
               const response = await fetch(
                 `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&order=market_cap_desc`
@@ -532,9 +585,9 @@ export default {
           const endpoint =
             this.selectedApi === "coingecko"
               ? `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${this.pageSize}&page=${this.currentPage}`
-              : `https://api.coincap.io/v2/assets?limit=${this.pageSize}&offset=${
-                  (this.currentPage - 1) * this.pageSize
-                }`;
+              : `https://api.coincap.io/v2/assets?limit=${
+                  this.pageSize
+                }&offset=${(this.currentPage - 1) * this.pageSize}`;
 
           const response = await fetch(endpoint);
           const data = await response.json();
@@ -766,7 +819,7 @@ export default {
 
         // Reset editingTransaction state
         this.editingTransaction = null;
-        
+
         this.closeTransactionModal();
       } catch (error) {
         console.error("Failed to save transaction:", error);
@@ -981,6 +1034,24 @@ export default {
   overflow-y: auto;
 }
 
+/* Add custom scrollbar styling */
+.app-container::-webkit-scrollbar {
+  width: 8px; /* Customize the width as needed */
+}
+
+.app-container::-webkit-scrollbar-track {
+  background: #1e1e2f;
+}
+
+.app-container::-webkit-scrollbar-thumb {
+  background: #34344a;
+  border-radius: 4px;
+}
+
+.app-container::-webkit-scrollbar-thumb:hover {
+  background: #95a5a6;
+}
+
 .header {
   padding: 8px 12px;
   margin-bottom: 10px;
@@ -994,8 +1065,8 @@ export default {
 
 .title-and-stats {
   display: flex;
-  align-items: center;
-  gap: 24px;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .title-and-stats h3 {
@@ -1005,13 +1076,14 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .stats-group {
   display: flex;
   gap: 24px;
   align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 5px;
 }
 
 .stat-item {
@@ -1379,8 +1451,7 @@ export default {
   background: #2a2a3b;
   padding: 30px;
   border-radius: 12px;
-  min-width: 560px;
-  max-width: 800px;
+  width: 450px;
   max-height: 500px;
   overflow-y: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -1895,8 +1966,12 @@ th {
   border-left: 3px solid transparent;
 }
 
-.tx-item.buy { border-left-color: #2ecc71; }
-.tx-item.sell { border-left-color: #e74c3c; }
+.tx-item.buy {
+  border-left-color: #2ecc71;
+}
+.tx-item.sell {
+  border-left-color: #e74c3c;
+}
 
 .tx-main {
   display: grid;
@@ -1919,8 +1994,12 @@ th {
   font-size: 0.9rem;
 }
 
-.buy .tx-icon { color: #2ecc71; }
-.sell .tx-icon { color: #e74c3c; }
+.buy .tx-icon {
+  color: #2ecc71;
+}
+.sell .tx-icon {
+  color: #e74c3c;
+}
 
 .tx-secondary {
   display: flex;
